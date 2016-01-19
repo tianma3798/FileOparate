@@ -1,0 +1,34 @@
+﻿<Window x:Class="HtmlToImg_Tool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HtmlToImg_Tool"
+        mc:Ignorable="d"
+        Title="生成网页图片工具" Height="350" Width="600"
+       >
+    <Grid Margin="0,-1,0,1" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="89*"/>
+            <ColumnDefinition Width="503*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="16*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="label" Content="网页地址：" HorizontalAlignment="Left" Margin="16,48,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtUrl" 
+                 Height="23" Margin="0,49,10,0" 
+                 TextWrapping="Wrap" Text="" 
+                 VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="label1" Content="文件名：" HorizontalAlignment="Left" Margin="16,18,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,20,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label2" Content="生成目录：" HorizontalAlignment="Left" Margin="16,10,0,0" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.656,0.885"/>
+        <Label x:Name="lblDiretory" Content="Label" Grid.Column="1" HorizontalAlignment="Left" Margin="0,41,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Button x:Name="button" Content="选择目录" Grid.Column="1" HorizontalAlignment="Left" Margin="2,13,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Button x:Name="button1" Content="生成图片" Grid.Column="1" HorizontalAlignment="Left" Margin="0,98,0,0" Grid.Row="2" VerticalAlignment="Top" Width="77" Height="36" Click="button1_Click"/>
+        <Button x:Name="button2" Content="打开文件夹" Grid.Column="1" HorizontalAlignment="Left" Margin="122,98,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="36" Click="button2_Click"/>
+
+    </Grid>
+</Window>
