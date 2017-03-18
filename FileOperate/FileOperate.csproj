@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common">
-      <HintPath>H:\蔚蓝留学网源码\packages\Common\Common.dll</HintPath>
+      <HintPath>..\..\..\常用控件\@DLL_Out\Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -74,10 +74,23 @@ namespace FileOperate
         /// <returns></returns>
         public Bitmap GenerateImage()
         {
-            Thread thread = new Thread(new ThreadStart(_GenerateImage));
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            thread.Join();
+            //Thread thread = new Thread(new ThreadStart(_GenerateImage));
+            //thread.SetApartmentState(ApartmentState.STA);
+            //thread.Start();
+            //thread.Join();
+
+
+            WebBrowser browser = new WebBrowser();
+            browser.ScrollBarsEnabled = false; //是否启用滚动条
+            browser.ScriptErrorsSuppressed = true; //是否显示脚本错误
+            browser.Navigate(_url);
+            //browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(_DocumentCompleted);
+            //while (browser.ReadyState != WebBrowserReadyState.Complete)
+            //    Application.DoEvents();
+            while (browser.ReadyState != WebBrowserReadyState.Complete)
+                Application.DoEvents();
+            CreateImg(browser);
+            browser.Dispose();
             return _bitmap;
         }
         /// <summary>
@@ -86,20 +99,34 @@ namespace FileOperate
         private void _GenerateImage()
         {
             WebBrowser browser = new WebBrowser();
-            browser.ScrollBarsEnabled = false;
-            browser.ScriptErrorsSuppressed = false;
+            browser.ScrollBarsEnabled = false; //是否启用滚动条
+            browser.ScriptErrorsSuppressed = true; //是否显示脚本错误
+
+
             browser.Navigate(_url);
-            browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(_DocumentCompleted);
+            //browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(_DocumentCompleted);
+            //while (browser.ReadyState != WebBrowserReadyState.Complete)
+            //    Application.DoEvents();
             while (browser.ReadyState != WebBrowserReadyState.Complete)
                 Application.DoEvents();
+            CreateImg(browser);
+
             browser.Dispose();
         }
         /// <summary>
-        /// 页面加载完成事件
+        /// 页面加载完成事件，放弃使用
         /// </summary>
         private void _DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             WebBrowser browser = sender as WebBrowser;
+            string str = browser.ReadyState.ToString();
+        }
+        /// <summary>
+        /// 根据Browser生成图片
+        /// </summary>
+        /// <param name="browser"></param>
+        private void CreateImg(WebBrowser browser)
+        {
             if (IsCustumer)
             {
                 //生成自定义宽度和高度的图片
@@ -127,10 +154,9 @@ namespace FileOperate
                     browser.ClientSize = new Size(_browserWidth, _browserHeight);
                     _bitmap = new Bitmap(_browserWidth, _browserHeight);
                     browser.BringToFront();
-                    browser.DrawToBitmap(_bitmap, new Rectangle(0,0,_browserWidth,_browserHeight));
+                    browser.DrawToBitmap(_bitmap, new Rectangle(0, 0, _browserWidth, _browserHeight));
                     _bitmap = (Bitmap)_bitmap.GetThumbnailImage(_browserWidth, _browserHeight, null, IntPtr.Zero);
                 }
-     
                 //_bitmap = (Bitmap)_bitmap.GetThumbnailImage(bodyRect.Width, bodyRect.Height, null, IntPtr.Zero);
             }
         }

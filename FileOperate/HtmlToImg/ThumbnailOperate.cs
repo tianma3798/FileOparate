@@ -95,9 +95,6 @@ namespace FileOperate
             _bit.Dispose();
         }
 
-
-
-
         //public void TestOne()
         //{
         //    Thumbnail thumb = new Thumbnail("http://usa.weilanliuxue.cn/", 1440, 900, 600, 600);
