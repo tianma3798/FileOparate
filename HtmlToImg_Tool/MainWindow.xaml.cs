@@ -39,6 +39,17 @@ namespace HtmlToImg_Tool
             txtUrl.Focus();
             txtName.Text = "image1.png";
             lblDiretory.Content = Common.LocalPathHelper.DesktopPath;
+
+            //判断是否是IE11模式
+            WebBrowserRegistry reg = new WebBrowserRegistry();
+            if (reg.Exists())
+            {
+                ie11Btn.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                ShowMsg("默认使用ie7模式打开页面，为了更好使用，建议设置成IE11模式并重新打开程序，如果你的系统支持ie11");
+            }
         }
 
         //生成图片
@@ -46,10 +57,11 @@ namespace HtmlToImg_Tool
         {
             string fullname = lblDiretory.Content + "\\" + txtName.Text;
             ThumbnailImg img = new ThumbnailImg(fullname);
-            ThumbnailOperate _operate = new ThumbnailOperate(txtUrl.Text, img);
+            ComboBoxItem selecedItem = comboWidth.SelectedValue as ComboBoxItem;
+            int width = Convert.ToInt32(selecedItem.Content);
+            ThumbnailOperate _operate = new ThumbnailOperate(txtUrl.Text, width, img);
 
             _operate.GenerateImg();
-
             System.Windows.MessageBox.Show("生成图片成功");
         }
 
@@ -69,6 +81,27 @@ namespace HtmlToImg_Tool
             }
 
             lblDiretory.Content = folderDialog.SelectedPath.Trim();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            //默认使用IE11模式
+            try
+            {
+                WebBrowserRegistry reg = new WebBrowserRegistry();
+                reg.SetIEDocument();
+                ShowMsg("设置成功");
+                ie11Btn.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                ShowMsg(ex.Message);
+            }
+        }
+
+        public static void ShowMsg(string content)
+        {
+            System.Windows.MessageBox.Show(content);
         }
     }
 }

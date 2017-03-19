@@ -23,12 +23,27 @@
                  TextWrapping="Wrap" Text="" 
                  VerticalAlignment="Top" Grid.Column="1"/>
         <Label x:Name="label1" Content="文件名：" HorizontalAlignment="Left" Margin="16,18,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,20,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,20,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="197"/>
         <Label x:Name="label2" Content="生成目录：" HorizontalAlignment="Left" Margin="16,10,0,0" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.656,0.885"/>
         <Label x:Name="lblDiretory" Content="Label" Grid.Column="1" HorizontalAlignment="Left" Margin="0,41,0,0" Grid.Row="2" VerticalAlignment="Top"/>
         <Button x:Name="button" Content="选择目录" Grid.Column="1" HorizontalAlignment="Left" Margin="2,13,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="button_Click"/>
         <Button x:Name="button1" Content="生成图片" Grid.Column="1" HorizontalAlignment="Left" Margin="0,98,0,0" Grid.Row="2" VerticalAlignment="Top" Width="77" Height="36" Click="button1_Click"/>
         <Button x:Name="button2" Content="打开文件夹" Grid.Column="1" HorizontalAlignment="Left" Margin="122,98,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="36" Click="button2_Click"/>
+        <Button x:Name="ie11Btn" Content="使用IE11模式" Grid.Column="1" HorizontalAlignment="Left" Margin="235,98,0,0" Grid.Row="2"
+                VerticalAlignment="Top" Width="88" Height="36" Click="Button_Click_1"/>
+        <Label Content="宽度：
+               " Grid.Column="1" HorizontalAlignment="Left" Margin="235,18,0,0" Grid.Row="1" VerticalAlignment="Top" Width="48"/>
+        <ComboBox x:Name="comboWidth" Grid.Column="1" HorizontalAlignment="Left" Margin="288,20,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem Content="1920"   HorizontalAlignment="Left" Width="118"/>
+            <ComboBoxItem Content="1600"   HorizontalAlignment="Left" Width="118"/>
+            <ComboBoxItem Content="1366"   HorizontalAlignment="Left" Width="118"/>
+            <ComboBoxItem Content="1280"   HorizontalAlignment="Left" Width="118"   IsSelected="True"/>
+            <ComboBoxItem Content="1024"   HorizontalAlignment="Left" Width="118"/>
+            <ComboBoxItem Content="800"   HorizontalAlignment="Left" Width="118"/>
+            <ComboBoxItem Content="768"   HorizontalAlignment="Left" Width="118"/>
+            <ComboBoxItem Content="414"   HorizontalAlignment="Left" Width="118"/>
+            <ComboBoxItem Content="320"   HorizontalAlignment="Left" Width="118"/>
+        </ComboBox>
 
     </Grid>
 </Window>

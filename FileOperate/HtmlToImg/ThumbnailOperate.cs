@@ -77,6 +77,7 @@ namespace FileOperate
         /// <param name="TargetImg">生成图片的信息</param>
         public ThumbnailOperate(string Url, ThumbnailImg TargetImg) : this(Url, Screen.PrimaryScreen.Bounds.Width, TargetImg)
         {
+
         }
         /// <summary>
         /// 生成图片
@@ -84,15 +85,7 @@ namespace FileOperate
         public void GenerateImg()
         {
             Thumbnail thumg = new Thumbnail(Url, BrowserWidth);
-            _bit = thumg.GenerateImage();
-            //根据指定的宽度和高度缩放图片
-            if (TargetImg.IsCustomer)
-            {
-                _bit = ImgHelper.ResizeCut(_bit, TargetImg.TargetWidth, TargetImg.TargetHeight);
-            }
-            //保存图片
-            _bit.Save(TargetImg.FullName, TargetImg.Format);
-            _bit.Dispose();
+            thumg.GenerateImage(TargetImg);
         }
 
         //public void TestOne()
@@ -102,7 +95,5 @@ namespace FileOperate
         //    bit.Save("e:\\index.jpg", ImageFormat.Jpeg);
         //    bit.Dispose();
         //}
-
-
     }
 }

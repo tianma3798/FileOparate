@@ -16,6 +16,11 @@ namespace FileOperate
     /// </summary>
     public class Thumbnail
     {
+
+        /// <summary>
+        /// 生成的图片信息定义
+        /// </summary>
+        public ThumbnailImg TargetImg { get; set; }
         /// <summary>
         /// 网页生成的图片
         /// </summary>
@@ -55,43 +60,43 @@ namespace FileOperate
             _tWidth = tWidth;
             _tHeight = tHeight;
         }
-        /// <summary>
-        /// 获取网页的图片
-        /// </summary>
-        /// <param name="url">网页地址</param>
-        /// <param name="browserWidth">浏览器宽度</param>
-        /// <param name="browserHeight">浏览器高度</param>
-        /// <param name="tWidth">生成图片宽度</param>
-        /// <param name="tHeight">生成图片高度</param>
-        public static Bitmap GetThumbnail(string url, int browserWidth, int browserHeight, int tWidth, int tHeight)
-        {
-            Thumbnail thumb = new Thumbnail(url, browserWidth, browserHeight, tWidth, tHeight);
-            return thumb.GenerateImage();
-        }
+        ///// <summary>
+        ///// 获取网页的图片
+        ///// </summary>
+        ///// <param name="url">网页地址</param>
+        ///// <param name="browserWidth">浏览器宽度</param>
+        ///// <param name="browserHeight">浏览器高度</param>
+        ///// <param name="tWidth">生成图片宽度</param>
+        ///// <param name="tHeight">生成图片高度</param>
+        //public static Bitmap GetThumbnail(string url, int browserWidth, int browserHeight, int tWidth, int tHeight)
+        //{
+        //    Thumbnail thumb = new Thumbnail(url, browserWidth, browserHeight, tWidth, tHeight);
+        //    return thumb.GenerateImage();
+        //}
         /// <summary>
         /// 生成图片信息
         /// </summary>
         /// <returns></returns>
-        public Bitmap GenerateImage()
+        public void GenerateImage(ThumbnailImg TargetImg)
         {
-            //Thread thread = new Thread(new ThreadStart(_GenerateImage));
-            //thread.SetApartmentState(ApartmentState.STA);
-            //thread.Start();
-            //thread.Join();
+            this.TargetImg = TargetImg;
+            Thread thread = new Thread(new ThreadStart(_GenerateImage));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            thread.Join();
 
 
-            WebBrowser browser = new WebBrowser();
-            browser.ScrollBarsEnabled = false; //是否启用滚动条
-            browser.ScriptErrorsSuppressed = true; //是否显示脚本错误
-            browser.Navigate(_url);
+            //WebBrowser browser = new WebBrowser();
+            //browser.ScrollBarsEnabled = false; //是否启用滚动条
+            //browser.ScriptErrorsSuppressed = false; //是否显示脚本错误
+            //browser.Navigate(_url);
             //browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(_DocumentCompleted);
-            //while (browser.ReadyState != WebBrowserReadyState.Complete)
-            //    Application.DoEvents();
-            while (browser.ReadyState != WebBrowserReadyState.Complete)
-                Application.DoEvents();
-            CreateImg(browser);
-            browser.Dispose();
-            return _bitmap;
+            ////while (browser.ReadyState != WebBrowserReadyState.Complete)
+            ////    Application.DoEvents();
+            ////while (browser.ReadyState != WebBrowserReadyState.Complete)
+            ////    Application.DoEvents();
+            ////CreateImg(browser);
+            //browser.Dispose();
         }
         /// <summary>
         /// 使用WebBrowser生成图片
@@ -101,26 +106,24 @@ namespace FileOperate
             WebBrowser browser = new WebBrowser();
             browser.ScrollBarsEnabled = false; //是否启用滚动条
             browser.ScriptErrorsSuppressed = true; //是否显示脚本错误
-
-
             browser.Navigate(_url);
             //browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(_DocumentCompleted);
             //while (browser.ReadyState != WebBrowserReadyState.Complete)
             //    Application.DoEvents();
             while (browser.ReadyState != WebBrowserReadyState.Complete)
                 Application.DoEvents();
-            CreateImg(browser);
-
+            SaveImg(browser);
             browser.Dispose();
         }
-        /// <summary>
-        /// 页面加载完成事件，放弃使用
-        /// </summary>
-        private void _DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            WebBrowser browser = sender as WebBrowser;
-            string str = browser.ReadyState.ToString();
-        }
+        ///// <summary>
+        ///// 页面加载完成事件，放弃使用
+        ///// </summary>
+        //private void _DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        //{
+        //    WebBrowser browser = sender as WebBrowser;
+        //    string str = browser.ReadyState.ToString();
+        //    SaveImg(browser);
+        //}
         /// <summary>
         /// 根据Browser生成图片
         /// </summary>
@@ -160,5 +163,20 @@ namespace FileOperate
                 //_bitmap = (Bitmap)_bitmap.GetThumbnailImage(bodyRect.Width, bodyRect.Height, null, IntPtr.Zero);
             }
         }
+
+        private void SaveImg(WebBrowser browser)
+        {
+            CreateImg(browser);
+            //根据指定的宽度和高度缩放图片
+            if (TargetImg.IsCustomer)
+            {
+                _bitmap = ImgHelper.ResizeCut(_bitmap, TargetImg.TargetWidth, TargetImg.TargetHeight);
+            }
+            //保存图片
+            _bitmap.Save(TargetImg.FullName, TargetImg.Format);
+            _bitmap.Dispose();
+        }
+
+
     }
 }

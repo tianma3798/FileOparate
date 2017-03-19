@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using System.Windows.Forms;
@@ -26,9 +27,44 @@ namespace HtmlToImg
             //int workHeight = Screen.PrimaryScreen.WorkingArea.Height;
             //Console.WriteLine(workWidth + "*" + workHeight);
 
-            TestOne();
+            // TestOne();
+            TestTwo();
 
             Console.Read();
+        }
+
+
+
+        public static void TestTwo()
+        {
+            Thread thread = new Thread(new ThreadStart(_GenerateImage));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            thread.Join();
+            Console.WriteLine("线程启动");
+        }
+
+        private static void _GenerateImage()
+        {
+            WebBrowser browser = new WebBrowser();
+            browser.ScrollBarsEnabled = false; //是否启用滚动条
+            browser.ScriptErrorsSuppressed = false; //是否显示脚本错误
+            string _url = "http://blog.csdn.net/u011127019/article/category/6152933";
+            browser.Navigate(_url);
+            browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(_DocumentCompleted);
+            while (browser.ReadyState != WebBrowserReadyState.Complete)
+                Application.DoEvents();
+            Console.WriteLine("线程结束");
+        }
+
+        /// <summary>
+        /// 页面加载完成事件，放弃使用
+        /// </summary>
+        private static void _DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            WebBrowser browser = sender as WebBrowser;
+            string str = browser.ReadyState.ToString();
+            Console.WriteLine(str);
         }
 
 

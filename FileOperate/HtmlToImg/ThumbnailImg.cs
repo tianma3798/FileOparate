@@ -79,7 +79,6 @@ namespace FileOperate
             get; set;
         }
 
-
         /// <summary>
         /// 设置成jpeg图片
         /// </summary>
@@ -91,6 +90,5 @@ namespace FileOperate
         {
             this.Format = ImageFormat.Gif;
         }
-
     }
 }
